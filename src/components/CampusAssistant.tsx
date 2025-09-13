@@ -173,27 +173,30 @@ const CampusAssistant = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-background via-campus-purple/5 to-campus-blue/10">
+    <div className="flex flex-col h-screen relative college-pattern floating-shapes bg-gradient-to-br from-background via-campus-purple/5 to-campus-blue/10 overflow-hidden">
       {/* Header */}
-      <div className="border-b bg-card/95 backdrop-blur-sm sticky top-0 z-10" style={{ boxShadow: 'var(--shadow-glow)' }}>
-        <div className="container mx-auto px-4 py-4">
+      <div className="border-b bg-card/95 backdrop-blur-xl sticky top-0 z-10 relative" style={{ boxShadow: 'var(--shadow-glow)' }}>
+        <div className="absolute inset-0 gradient-rainbow opacity-10"></div>
+        <div className="container mx-auto px-4 py-4 relative">
           <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full gradient-hero flex items-center justify-center animate-pulse">
+            <div className="w-12 h-12 rounded-full gradient-hero flex items-center justify-center animate-pulse relative">
               <Bot className="w-6 h-6 text-white" />
+              <div className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-campus-yellow animate-pulse"></div>
             </div>
             <div>
-              <h1 className="text-xl font-bold bg-gradient-to-r from-campus-purple to-campus-blue bg-clip-text text-transparent">
-                Campus AI Assistant
+              <h1 className="text-xl font-bold bg-gradient-to-r from-campus-purple via-campus-pink to-campus-blue bg-clip-text text-transparent">
+                🎓 Campus AI Assistant
               </h1>
-              <p className="text-sm text-muted-foreground">Your 24/7 colorful campus companion ✨</p>
+              <p className="text-sm text-muted-foreground">Your vibrant 24/7 campus companion ✨🌈</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="border-b gradient-rainbow/10 backdrop-blur-sm">
-        <div className="container mx-auto px-4 py-3">
+      <div className="border-b backdrop-blur-xl relative overflow-hidden">
+        <div className="absolute inset-0 gradient-cool opacity-5"></div>
+        <div className="container mx-auto px-4 py-3 relative">
           <div className="flex gap-2 overflow-x-auto pb-2">
             {quickActions.map((action, index) => (
               <Button
@@ -201,8 +204,10 @@ const CampusAssistant = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => handleQuickAction(action)}
-                className={`flex items-center gap-2 whitespace-nowrap text-xs transition-smooth ${getCategoryColor(action.category)}`}
+                className={`flex items-center gap-2 whitespace-nowrap text-xs transition-smooth hover:scale-105 transform ${getCategoryColor(action.category)} relative overflow-hidden`}
+                style={{ animationDelay: `${index * 100}ms` }}
               >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 {action.icon}
                 {action.label}
               </Button>
@@ -212,8 +217,10 @@ const CampusAssistant = () => {
       </div>
 
       {/* Messages */}
-      <ScrollArea className="flex-1 px-4">
-        <div className="container mx-auto py-6 space-y-4 max-w-4xl">
+      <ScrollArea className="flex-1 px-4 relative">
+        <div className="absolute top-10 left-10 w-32 h-32 rounded-full bg-gradient-to-r from-campus-purple/10 to-campus-pink/10 blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 rounded-full bg-gradient-to-r from-campus-blue/10 to-campus-cyan/10 blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+        <div className="container mx-auto py-6 space-y-4 max-w-4xl relative z-10">
           {messages.map((message) => (
             <div
               key={message.id}
@@ -274,22 +281,23 @@ const CampusAssistant = () => {
       </ScrollArea>
 
       {/* Input */}
-      <div className="border-t bg-card/95 backdrop-blur-sm p-4">
-        <div className="container mx-auto max-w-4xl">
+      <div className="border-t bg-card/95 backdrop-blur-xl p-4 relative">
+        <div className="absolute inset-0 gradient-warm opacity-5"></div>
+        <div className="container mx-auto max-w-4xl relative">
           <div className="flex gap-2">
             <Input
               ref={inputRef}
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyPress={handleKeyPress}
-              placeholder="Ask me anything about campus services..."
-              className="flex-1 bg-background"
+              placeholder="🎨 Ask me anything about campus services..."
+              className="flex-1 bg-background/50 backdrop-blur-sm border-campus-blue/20 focus:border-campus-purple/50 transition-all duration-300"
               disabled={isTyping}
             />
             <Button
               onClick={() => handleSendMessage(inputValue)}
               disabled={!inputValue.trim() || isTyping}
-              className="bg-primary hover:bg-primary-hover transition-smooth"
+              className="gradient-primary hover:scale-105 transform transition-all duration-300 shadow-lg"
             >
               <Send className="w-4 h-4" />
             </Button>
