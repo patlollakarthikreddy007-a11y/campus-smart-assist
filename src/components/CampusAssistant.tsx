@@ -41,6 +41,28 @@ const quickActions: QuickAction[] = [
   { label: "Registration Help", icon: <FileText className="w-4 h-4" />, query: "How do I register for classes?", category: "admin" },
 ];
 
+const getCategoryColor = (category: string) => {
+  switch (category) {
+    case "schedules": return "quick-action-schedules";
+    case "faculty": return "quick-action-faculty";
+    case "dining": return "quick-action-dining";
+    case "library": return "quick-action-library";
+    case "admin": return "quick-action-admin";
+    default: return "bg-campus-cyan/10 text-campus-cyan hover:bg-campus-cyan hover:text-white border-campus-cyan/30";
+  }
+};
+
+const getCategoryBadgeColor = (category: string) => {
+  switch (category) {
+    case "schedules": return "bg-campus-purple/20 text-campus-purple border-campus-purple/30";
+    case "faculty": return "bg-campus-pink/20 text-campus-pink border-campus-pink/30";
+    case "dining": return "bg-campus-orange/20 text-campus-orange border-campus-orange/30";
+    case "library": return "bg-campus-green/20 text-campus-green border-campus-green/30";
+    case "admin": return "bg-campus-yellow/20 text-campus-yellow border-campus-yellow/30";
+    default: return "bg-campus-cyan/20 text-campus-cyan border-campus-cyan/30";
+  }
+};
+
 // Mock campus data
 const campusData = {
   schedules: {
@@ -151,24 +173,26 @@ const CampusAssistant = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-background to-muted">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-background via-campus-purple/5 to-campus-blue/10">
       {/* Header */}
-      <div className="border-b bg-card/95 backdrop-blur-sm sticky top-0 z-10">
+      <div className="border-b bg-card/95 backdrop-blur-sm sticky top-0 z-10" style={{ boxShadow: 'var(--shadow-glow)' }}>
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full gradient-primary flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full gradient-hero flex items-center justify-center animate-pulse">
               <Bot className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">Campus AI Assistant</h1>
-              <p className="text-sm text-muted-foreground">Your 24/7 campus information companion</p>
+              <h1 className="text-xl font-bold bg-gradient-to-r from-campus-purple to-campus-blue bg-clip-text text-transparent">
+                Campus AI Assistant
+              </h1>
+              <p className="text-sm text-muted-foreground">Your 24/7 colorful campus companion ✨</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Quick Actions */}
-      <div className="border-b bg-card/50 backdrop-blur-sm">
+      <div className="border-b gradient-rainbow/10 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-3">
           <div className="flex gap-2 overflow-x-auto pb-2">
             {quickActions.map((action, index) => (
@@ -177,7 +201,7 @@ const CampusAssistant = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => handleQuickAction(action)}
-                className="flex items-center gap-2 whitespace-nowrap text-xs hover:bg-primary hover:text-primary-foreground transition-smooth"
+                className={`flex items-center gap-2 whitespace-nowrap text-xs transition-smooth ${getCategoryColor(action.category)}`}
               >
                 {action.icon}
                 {action.label}
@@ -196,8 +220,8 @@ const CampusAssistant = () => {
               className={`flex gap-3 ${message.isUser ? "justify-end" : "justify-start"}`}
             >
               {!message.isUser && (
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center flex-shrink-0 mt-1">
-                  <Bot className="w-4 h-4 text-primary-foreground" />
+                <div className="w-8 h-8 rounded-full gradient-cool flex items-center justify-center flex-shrink-0 mt-1 animate-pulse">
+                  <Bot className="w-4 h-4 text-white" />
                 </div>
               )}
               
@@ -212,7 +236,10 @@ const CampusAssistant = () => {
                     {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                   {message.category && message.category !== "general" && (
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge 
+                      variant="outline" 
+                      className={`text-xs border ${getCategoryBadgeColor(message.category)}`}
+                    >
                       {message.category}
                     </Badge>
                   )}
@@ -220,8 +247,8 @@ const CampusAssistant = () => {
               </div>
 
               {message.isUser && (
-                <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center flex-shrink-0 mt-1">
-                  <User className="w-4 h-4 text-muted-foreground" />
+                <div className="w-8 h-8 rounded-full gradient-warm flex items-center justify-center flex-shrink-0 mt-1">
+                  <User className="w-4 h-4 text-white" />
                 </div>
               )}
             </div>
